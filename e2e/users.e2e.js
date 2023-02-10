@@ -76,15 +76,7 @@ describe('endpoint /users', () => {
     });
   });
 
-  /*
-  describe('PATCH request', () => {
 
-  });
-
-  describe('DELETE request', () => {
-
-  });
-  */
   afterAll(async () => {
     server.close();
     await downSeed();

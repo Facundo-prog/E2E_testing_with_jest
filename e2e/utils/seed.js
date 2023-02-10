@@ -2,7 +2,6 @@ const sequalize = require('../../src/db/sequelize');
 const bcrypt = require('bcrypt');
 const { models } = sequalize;
 
-
 const upSeed = async () => {
   try{
     await sequalize.sync({ force: true });// Dev only
@@ -16,26 +15,19 @@ const upSeed = async () => {
     await models.User.create({
       email: 'customer@gmail.com',
       password: await bcrypt.hash('12345678', 10),
-      role: 'customer',
-      createdAt: new Date()
+      role: 'customer'
     });
 
-    await models.Category.create([
-      {
-        name: 'category 1',
-        image: 'http://image.png'
-      },
-      {
-        name: 'category 2',
-        image: 'http://image.png'
-      }
-    ]);
+    await models.Category.create({
+      name: 'category 1',
+      image: 'http://image.png'
+    });
 
     await models.Customer.create({
       name: "Valentina",
       lastName: "Molina",
       phone: "121212",
-      user_id: 2
+      userId: 2
     });
 
     await models.Order.create({

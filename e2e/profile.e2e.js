@@ -53,18 +53,20 @@ describe('endpoint /profile', () => {
     });
 
     test('Should return a orders with user', async () => {
-      const user = await models.User.findByPk('2');
+      const user = await models.User.findByPk('2', { include: ['customer']});
       const dataInput = {
         email: user.email,
         password: "12345678"
       }
 
       const { body: loginBody } = await await api.post('/api/v1/auth/login').send(dataInput);
-      const { status } = await api.get('/api/v1/profile/my-orders').set({
+      const { status, body } = await api.get('/api/v1/profile/my-orders').set({
         'Authorization': `Bearer ${loginBody.access_token}`
       });
 
       expect(status).toBe(200);
+      expect(body[0].customer.name).toBe(user.customer.name);
+      expect(body[0].customer.userId).toBe(user.id);
     });
   });
 
