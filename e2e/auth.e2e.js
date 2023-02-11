@@ -4,6 +4,18 @@ const { config } = require('../src/config/config');
 const { models } = require('../src/db/sequelize');
 const { upSeed, downSeed } = require('./utils/umzug');
 
+const mockSendMail = jest.fn();
+
+jest.mock('nodemailer', () => {
+  return {
+    createTransport: jest.fn().mockImplementation(() => {
+      return {
+        sendMail: mockSendMail
+      }
+    })
+  }
+})
+
 describe('endpoint /auth', () => {
   let server, api;
 
@@ -13,6 +25,7 @@ describe('endpoint /auth', () => {
     server = app.listen(9000);
     await upSeed();
   });
+
 
   describe('POST request', () => {
     test('Should return a 401 Unauthorized', async () => {
@@ -43,6 +56,7 @@ describe('endpoint /auth', () => {
     });
   });
 
+
   describe('GET /protected-route', () => {
     test('Should return a 401 Unauthorized', async () => {
       const { status, body } = await api.get('/protected-route');
@@ -56,6 +70,32 @@ describe('endpoint /auth', () => {
 
       expect(status).toBe(200);
       expect(body.message).toEqual('Hola, soy una ruta protegida');
+    });
+  });
+
+
+  describe('POST /recovery', () => {
+    beforeAll(() => {
+      mockSendMail.mockClear();
+    });
+
+    test('Should return a 401 Unauthorized for invalid email', async () => {
+      const email = 'test@gmail.com';
+      const { status, body } = await api.post('/api/v1/auth/recovery').send({ email });
+
+      expect(status).toBe(401);
+      expect(body.error).toBe("Unauthorized");
+    });
+
+    test('Should return send email', async () => {
+      mockSendMail.mockResolvedValue(true);
+
+      const email = 'admin@mail.com';
+      const { status, body } = await api.post('/api/v1/auth/recovery').send({ email });
+
+      expect(status).toBe(200);
+      expect(body.message).toEqual('mail sent');
+      expect(mockSendMail).toHaveBeenCalled();
     });
   });
 
