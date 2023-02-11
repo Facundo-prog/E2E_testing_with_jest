@@ -8,7 +8,7 @@ module.exports = {
       {
         name: 'product 1',
         image: 'http://image.png',
-        description: 'bla bla bla',
+        description: 'description product 1',
         price: 100,
         category_id: 1,
         created_at: new Date()
@@ -16,7 +16,7 @@ module.exports = {
       {
         name: 'product 2',
         image: 'http://image.png',
-        description: 'bla bla bla',
+        description: 'description product 2',
         price: 20,
         category_id: 2,
         created_at: new Date()

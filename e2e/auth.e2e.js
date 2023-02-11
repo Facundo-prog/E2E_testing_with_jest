@@ -2,7 +2,7 @@ const request = require('supertest');
 const createApp = require('../src/app');
 const { config } = require('../src/config/config');
 const { models } = require('../src/db/sequelize');
-const { upSeed, downSeed } = require('./utils/seed');
+const { upSeed, downSeed } = require('./utils/umzug');
 
 describe('endpoint /auth', () => {
   let server, api;
@@ -10,9 +10,7 @@ describe('endpoint /auth', () => {
   beforeAll(async () => {
     const app = createApp();
     api = request(app);
-    server = app.listen(9000, "", () => {
-      console.log('E2E server runing');
-    });
+    server = app.listen(9000);
     await upSeed();
   });
 

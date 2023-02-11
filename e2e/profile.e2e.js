@@ -9,9 +9,7 @@ describe('endpoint /profile', () => {
   beforeAll(async () => {
     const app = createApp();
     api = request(app);
-    server = app.listen(9000, "", () => {
-      console.log('E2E server runing');
-    });
+    server = app.listen(9000);
     await upSeed();
   });
 
@@ -58,6 +56,8 @@ describe('endpoint /profile', () => {
         email: user.email,
         password: "12345678"
       }
+
+      await models.Order.create({ customerId: 1 });
 
       const { body: loginBody } = await await api.post('/api/v1/auth/login').send(dataInput);
       const { status, body } = await api.get('/api/v1/profile/my-orders').set({

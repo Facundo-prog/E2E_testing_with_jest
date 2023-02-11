@@ -8,9 +8,7 @@ describe('GET tests', () => {
   beforeEach(async () => {
     const app = createApp();
     api = request(app);
-    server = app.listen(9000, "", () => {
-      console.log('E2E server runing');
-    });
+    server = app.listen(9000);
     await upSeed();
   });
 

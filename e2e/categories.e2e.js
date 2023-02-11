@@ -1,7 +1,7 @@
 const request = require('supertest');
 const createApp = require('../src/app');
 const { models } = require('../src/db/sequelize');
-const { upSeed, downSeed } = require('./utils/seed');
+const { upSeed, downSeed } = require('./utils/umzug');
 
 describe('endpoint /categories', () => {
   let server, api;
@@ -19,7 +19,7 @@ describe('endpoint /categories', () => {
   describe('POST /categories with not token', () => {
     test('should return 401', async () => {
       const inputData = {
-        name: 'Categoria 1',
+        name: 'Categoria 3',
         image: 'http://image.png'
       }
 
@@ -44,7 +44,7 @@ describe('endpoint /categories', () => {
 
     test('should return 201 created', async () => {
       const inputData = {
-        name: 'Categoria 1',
+        name: 'Categoria 3',
         image: 'http://image.png'
       }
 
@@ -76,7 +76,7 @@ describe('endpoint /categories', () => {
 
     test('should return 401 with not admin user', async () => {
       const inputData = {
-        name: 'Categoria 1',
+        name: 'Categoria 3',
         image: 'http://image.png'
       }
 

@@ -5,15 +5,20 @@ module.exports = {
   up: async (queryInterface) => {
     if(queryInterface.context) queryInterface = queryInterface.context
 
-    const password = 'admin123';
-    const hash = await bcrypt.hash(password, 10);
-
-    return await queryInterface.bulkInsert(USER_TABLE, [{
-      email: 'admin@mail.com',
-      password: hash,
-      role: 'admin',
-      created_at: new Date()
-    }]);
+    return await queryInterface.bulkInsert(USER_TABLE, [
+      {
+        email: 'admin@mail.com',
+        password: await bcrypt.hash('admin1234', 10),
+        role: 'admin',
+        created_at: new Date()
+      },
+      {
+        email: 'customer@gmail.com',
+        password: await bcrypt.hash('12345678', 10),
+        role: 'customer',
+        created_at: new Date()
+      },
+    ]);
   },
   down: (queryInterface) => {
     if(queryInterface.context) queryInterface = queryInterface.context

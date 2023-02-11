@@ -23,6 +23,14 @@ const upSeed = async () => {
       image: 'http://image.png'
     });
 
+    await models.Product.create({
+      name: 'Product 1',
+      price: 100,
+      description: 'description product 1',
+      image: 'http://image.png',
+      categoryId: 1
+    })
+
     await models.Customer.create({
       name: "Valentina",
       lastName: "Molina",

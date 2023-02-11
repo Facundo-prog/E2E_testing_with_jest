@@ -14,12 +14,23 @@ describe('endpoint /products', () => {
   });
 
 
+  describe('GET /products', () => {
+    test('should return all products', async () => {
+      const { status, body } = await api.get('/api/v1/products');
+
+      expect(status).toBe(200);
+      expect(body.length).toBe(1);
+      expect(body[0].categoryId).toBeTruthy();
+    });
+  });
+
+
   describe('POST /products', () => {
     test('should return 404 not valid category', async () => {
       const inputData = {
-        name: 'Product 1',
-        price: 100,
-        description: 'description product',
+        name: 'Product 2',
+        price: 50,
+        description: 'description product 2',
         image: 'http://image.png',
         categoryId: 6 //Not exist
       }
@@ -30,9 +41,9 @@ describe('endpoint /products', () => {
 
     test('should return 201 created', async () => {
       const inputData = {
-        name: 'Product 1',
-        price: 100,
-        description: 'description product',
+        name: 'Product 2',
+        price: 50,
+        description: 'description product 2',
         image: 'http://image.png',
         categoryId: 1
       }
